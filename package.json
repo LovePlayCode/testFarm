@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "pnpm --filter @qiannan/* run build",
+    "dev": "pnpm --filter @qiannan/* run dev"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.11",
+    "core-js": "^3.37.0",
+    "node-libs-browser-okam": "^2.2.4"
+  },
+  "dependencies": {
+    "father": "^4.4.1"
+  }
+}

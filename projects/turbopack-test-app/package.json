@@ -1,0 +1,15 @@
+{
+  "name": "@example/turbopack-test-app",
+  "private": true,
+  "scripts": {
+    "bundler": "bundler"
+  },
+  "devDependencies": {
+    "@qiannan/bundler": "workspace:*"
+  },
+  "dependencies": {
+    "react": "18",
+    "react-dom": "18",
+    "react-refresh": "^0.14.0"
+  }
+}
