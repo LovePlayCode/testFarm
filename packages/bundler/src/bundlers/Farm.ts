@@ -3,7 +3,16 @@ import {
   BaseBundlerBuildOpts,
   BaseBundlerOpts,
 } from "./BaseBundler";
-import { build, Server, logger, Compiler, start } from "@farmfe/core";
+import {
+  build,
+  Server,
+  logger,
+  Compiler,
+  start,
+  resolveConfig,
+  createCompiler,
+  createDevServer,
+} from "@farmfe/core";
 // import react from '@farmfe/plugin-react';
 
 interface FarmOpts extends BaseBundlerOpts {}
@@ -24,39 +33,22 @@ export class Farm extends BaseBundler {
   }
 
   async dev(_opts: BaseBundlerBuildOpts = {}) {
-    // const buildOpts = {
-    //   root: this.opts.root,
-    //   output: {
-    //     publicPath: '/',
-    //   },
-    // };
-    // let compiler = new Compiler({
-    //   config: buildOpts,
-    //   jsPlugins: [
-    //     // react,
-    //   ],
-    //   rustPlugins: [],
-    // });
-    // let server = new Server({
-    //   compiler,
-    //   logger,
-    // });
-    await start({
-      compilation: {
-        input: {
-          index: `${this.opts.root}/index.html`,
-        },
+    const resolvedUserConfig = await resolveConfig(
+      {
+        root: process.cwd(),
+        configPath: process.cwd(),
       },
-    });
-    // await server.createServer({
-    //   // @ts-ignore
-    //   hmr: {
-    //     port: 3000,
-    //     host: '0.0.0.0',
-    //   },
-    //   port: 3000,
-    //   host: '0.0.0.0',
-    // });
-    // server.listen();
+      logger,
+      "development"
+    );
+
+    let compiler = await createCompiler(resolvedUserConfig);
+
+    const devServer = await createDevServer(
+      compiler,
+      resolvedUserConfig,
+      logger
+    );
+    devServer.listen();
   }
 }
